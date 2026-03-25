@@ -1,0 +1,39 @@
+version: '3'
+
+tasks:
+  default:
+    desc: List available tasks
+    cmds:
+      - task --list
+
+  fmt:
+    desc: Format Go source files
+    cmds:
+      - go fmt ./...
+
+  vet:
+    desc: Run Go vet
+    cmds:
+      - go vet ./...
+
+  test:
+    desc: Run tests
+    cmds:
+      - go test ./...
+
+  check:
+    desc: Run fmt, vet, and test
+    cmds:
+      - task: fmt
+      - task: vet
+      - task: test
+
+  deps:tidy:
+    desc: Tidy module dependencies
+    cmds:
+      - go mod tidy
+
+  clean:
+    desc: Remove build artifacts
+    cmds:
+      - go clean -testcache
