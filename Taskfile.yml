@@ -33,7 +33,16 @@ tasks:
     cmds:
       - go mod tidy
 
+  docs:build:
+    desc: Build documentation (markdown to HTML)
+    cmds:
+      - task-plus md2html --file index.md --dst docs
+      - task-plus md2html --file README.md --dst docs
+      - task-plus md2html --file CHANGELOG.md --dst docs
+      - task-plus md2html --file ROADMAP.md --dst docs
+
   clean:
     desc: Remove build artifacts
     cmds:
+      - rm -rf docs/
       - go clean -testcache

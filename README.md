@@ -37,5 +37,6 @@ Early development. See [issues](https://codeberg.org/hum3/gobank-db/issues) for 
 
 ## Links
 
+- **Documentation:** https://h3-gobank-db.statichost.eu
 - **Source:** https://codeberg.org/hum3/gobank-db
 - **Mirror:** https://github.com/drummonds/gobank-db

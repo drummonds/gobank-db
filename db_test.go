@@ -7,6 +7,25 @@ import (
 	"testing"
 )
 
+// testSchema is the DDL used by tests — isolated from production code.
+const testSchema = `
+CREATE TABLE IF NOT EXISTS accounts (
+	id VARCHAR(36) PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	currency VARCHAR(3) NOT NULL DEFAULT 'GBP',
+	balance BIGINT NOT NULL DEFAULT 0,
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS ledger_entries (
+	id VARCHAR(36) PRIMARY KEY,
+	account_id VARCHAR(36) NOT NULL REFERENCES accounts(id),
+	amount BIGINT NOT NULL,
+	description VARCHAR(255) NOT NULL DEFAULT '',
+	created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+`
+
 // openTestDB returns a database connection for testing.
 // By default uses pglike (:memory:). Set GOBANK_TEST_DSN to a postgres:// URL
 // to test against real Postgres.
@@ -34,12 +53,12 @@ func TestMigrate(t *testing.T) {
 	d := openTestDB(t)
 	ctx := context.Background()
 
-	if err := Migrate(ctx, d); err != nil {
+	if err := Migrate(ctx, d, testSchema); err != nil {
 		t.Fatalf("Migrate: %v", err)
 	}
 
 	// Running twice should be idempotent (IF NOT EXISTS).
-	if err := Migrate(ctx, d); err != nil {
+	if err := Migrate(ctx, d, testSchema); err != nil {
 		t.Fatalf("Migrate (idempotent): %v", err)
 	}
 }
@@ -47,7 +66,7 @@ func TestMigrate(t *testing.T) {
 func TestInsertAndQueryAccount(t *testing.T) {
 	d := openTestDB(t)
 	ctx := context.Background()
-	if err := Migrate(ctx, d); err != nil {
+	if err := Migrate(ctx, d, testSchema); err != nil {
 		t.Fatalf("Migrate: %v", err)
 	}
 
@@ -79,7 +98,7 @@ func TestInsertAndQueryAccount(t *testing.T) {
 func TestLedgerEntry(t *testing.T) {
 	d := openTestDB(t)
 	ctx := context.Background()
-	if err := Migrate(ctx, d); err != nil {
+	if err := Migrate(ctx, d, testSchema); err != nil {
 		t.Fatalf("Migrate: %v", err)
 	}
 
@@ -116,7 +135,7 @@ func TestLedgerEntry(t *testing.T) {
 func TestMultipleAccounts(t *testing.T) {
 	d := openTestDB(t)
 	ctx := context.Background()
-	if err := Migrate(ctx, d); err != nil {
+	if err := Migrate(ctx, d, testSchema); err != nil {
 		t.Fatalf("Migrate: %v", err)
 	}
 
