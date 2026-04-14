@@ -13,6 +13,24 @@ gobank-db provides:
 - **Migration Support** — schema versioning and migration management
 - **Connection Management** — pooled connections with go-postgres (pglike for dev, Postgres/CockroachDB for prod)
 
+## Testing
+
+Tests run against **pglike** (in-memory SQLite with PostgreSQL syntax translation) by default — no database server needed:
+
+```bash
+task test
+```
+
+To run against a real **PostgreSQL** instance, set `GOBANK_TEST_DSN`:
+
+```bash
+createdb gobank_test
+GOBANK_TEST_DSN="postgres:///gobank_test?host=/var/run/postgresql" task test
+dropdb gobank_test
+```
+
+Both backends exercise the same test suite and schema.
+
 ## Status
 
 Early development. See [issues](https://codeberg.org/hum3/gobank-db/issues) for planned work.
