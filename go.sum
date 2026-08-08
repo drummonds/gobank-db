@@ -1,5 +1,5 @@
-codeberg.org/hum3/go-postgres v0.5.3 h1:bvXHL58C037bGmJIHyfCNib/Vvm5DfSe/i1NK0o+uEo=
-codeberg.org/hum3/go-postgres v0.5.3/go.mod h1:lK3yBzN6TnSmAqdPnwK6f463b6qKsb8E/d3j3nYlcCo=
+git.bytestone.uk/hum3/go-postgres v0.5.5 h1:BKnmpHcGM3r/hmTMw+5jWG8OqGsXvW8YoKBc7PGVHZ0=
+git.bytestone.uk/hum3/go-postgres v0.5.5/go.mod h1:rAg4Pa3KpSTpcrv/takcZ7xlQpZdAKIe6jq5hx8CIUg=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
