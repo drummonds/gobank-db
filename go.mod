@@ -1,9 +1,9 @@
-module codeberg.org/hum3/gobank-db
+module git.bytestone.uk/hum3/gobank-db
 
 go 1.26.0
 
 require (
-	codeberg.org/hum3/go-postgres v0.5.3
+	git.bytestone.uk/hum3/go-postgres v0.5.3
 	github.com/jackc/pgx/v5 v5.9.1
 )
 

@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"strings"
 
-	_ "codeberg.org/hum3/go-postgres"  // registers "pglike" driver
+	_ "git.bytestone.uk/hum3/go-postgres"  // registers "pglike" driver
 	_ "github.com/jackc/pgx/v5/stdlib" // registers "pgx" driver
 )
 

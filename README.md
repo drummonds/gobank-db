@@ -1,8 +1,8 @@
 # gobank-db
 
-Core database abstraction for gobank — shared schema, multi-user base, built on [go-postgres](https://codeberg.org/hum3/go-postgres).
+Core database abstraction for gobank — shared schema, multi-user base, built on [go-postgres](https://git.bytestone.uk/hum3/go-postgres).
 
-Part of the [gobank](https://codeberg.org/hum3/gobank) family of libraries.
+Part of the [gobank](https://git.bytestone.uk/hum3/gobank) family of libraries.
 
 ## Overview
 
@@ -33,10 +33,10 @@ Both backends exercise the same test suite and schema.
 
 ## Status
 
-Early development. See [issues](https://codeberg.org/hum3/gobank-db/issues) for planned work.
+Early development. See [issues](https://git.bytestone.uk/hum3/gobank-db/issues) for planned work.
 
 ## Links
 
 - **Documentation:** https://h3-gobank-db.statichost.eu
-- **Source:** https://codeberg.org/hum3/gobank-db
+- **Source:** https://git.bytestone.uk/hum3/gobank-db
 - **Mirror:** https://github.com/drummonds/gobank-db
