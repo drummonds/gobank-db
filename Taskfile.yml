@@ -33,13 +33,21 @@ tasks:
     cmds:
       - go mod tidy
 
+  diagrams:
+    desc: Render research/*.d2 diagrams to SVG in docs/
+    cmds:
+      - mkdir -p docs
+      - for f in research/*.d2; do d2 "$f" "docs/$(basename "${f%.d2}").svg"; done
+
   docs:build:
-    desc: Build documentation (markdown to HTML)
+    desc: Build documentation (markdown to HTML) into docs/
+    deps: [diagrams]
     cmds:
       - task-plus md2html --file index.md --dst docs
       - task-plus md2html --file README.md --dst docs
       - task-plus md2html --file CHANGELOG.md --dst docs
       - task-plus md2html --file ROADMAP.md --dst docs
+      - for f in research/*.md; do task-plus md2html --file "$f" --dst docs --label Research; done
 
   clean:
     desc: Remove build artifacts

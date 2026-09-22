@@ -36,8 +36,8 @@ var migrations = []db.Migration{
 applied, err := db.Apply(ctx, d, migrations)
 ```
 
-The phases follow the [expand/contract](https://gobank.docs.bytestone.uk/research/expand-contract.html)
-pattern, with the [blue-green](https://gobank.docs.bytestone.uk/research/blue-green-schemas.html)
+The phases follow the [expand/contract](https://gobank-db.docs.bytestone.uk/expand-contract.html)
+pattern, with the [blue-green](https://gobank-db.docs.bytestone.uk/blue-green-schemas.html)
 switch done by repointing a view rather than `search_path`, so it works in one database on
 both backends:
 
@@ -97,6 +97,15 @@ GOBANK_TEST_DSN="postgres://postgres:test@127.0.0.1:54329/gobank_test?sslmode=di
 podman stop pg
 ```
 
+## Documentation
+
+Published at <https://gobank-db.docs.bytestone.uk>. The research notes that motivated this
+package live here:
+
+- [Contract Views](https://gobank-db.docs.bytestone.uk/contract-views.html)
+- [Expand/Contract Migrations](https://gobank-db.docs.bytestone.uk/expand-contract.html)
+- [Blue-Green Schemas](https://gobank-db.docs.bytestone.uk/blue-green-schemas.html)
+
 ## Status
 
 Early development. See [issues](https://git.bytestone.uk/hum3/gobank-db/issues) and the
@@ -106,3 +115,4 @@ Early development. See [issues](https://git.bytestone.uk/hum3/gobank-db/issues) 
 
 - **Source:** https://git.bytestone.uk/hum3/gobank-db
 - **Mirror:** https://github.com/drummonds/gobank-db
+- **Documentation:** https://gobank-db.docs.bytestone.uk

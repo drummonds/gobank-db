@@ -1,0 +1,49 @@
+direction: right
+
+title: |md
+  # Contract view swap
+  Blue-green in one database, expand/contract around a view
+|
+
+svc: gobank services {
+  shape: rectangle
+  style.fill: "#fef3c7"
+  q: SELECT id, name, balance, opened_on FROM accounts
+}
+
+view: accounts (VIEW) {
+  shape: hexagon
+  style.fill: "#e0e7ff"
+}
+
+blue: accounts_blue {
+  shape: cylinder
+  style.fill: "#dbeafe"
+  cols: id, name, currency, balance, opened_on?
+}
+
+green: accounts_green {
+  shape: cylinder
+  style.fill: "#dcfce7"
+  cols: id, name, currency, balance, opened_on
+}
+
+svc -> view: contract {
+  style.stroke: "#2563eb"
+  style.stroke-width: 3
+}
+
+view -> blue: before v4 {
+  style.stroke: "#94a3b8"
+  style.stroke-dash: 5
+}
+
+view -> green: after v4 (DROP VIEW; CREATE VIEW in one tx) {
+  style.stroke: "#16a34a"
+  style.stroke-width: 3
+}
+
+blue -> green: v3 INSERT ... SELECT backfill {
+  style.stroke: "#16a34a"
+  style.stroke-dash: 3
+}

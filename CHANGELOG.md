@@ -16,7 +16,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 - Tests walk a full expand → cutover → contract cycle around a contract view,
   on pglike and on Postgres 17 (`GOBANK_TEST_DSN`).
 
+- Research notes moved here from gobank: Blue-Green Schemas, Expand/Contract
+  Migrations, and a new Contract Views page that walks the test suite's
+  expand → cutover → contract cycle. Built from `research/*.md` by
+  `task docs:build` and published at gobank-db.docs.bytestone.uk.
+
 ### Changed
+- Docs deploy switched from statichost to rsync (`gobank-db.docs.bytestone.uk`).
 - `Migrate` now uses `SplitStatements` instead of splitting on every `;`.
 - README rewritten to describe what the package actually provides, with the
   contract-view rules and backend differences.
