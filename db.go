@@ -1,5 +1,6 @@
 // Package db provides shared database infrastructure for gobank services —
-// statement execution, schema management, and migration orchestration.
+// connection opening, versioned expand/contract migrations, and the
+// contract-view conventions that let services share one database.
 package db
 
 import (
@@ -8,8 +9,8 @@ import (
 	"fmt"
 	"strings"
 
-	_ "git.bytestone.uk/hum3/go-postgres"  // registers "pglike" driver
-	_ "github.com/jackc/pgx/v5/stdlib" // registers "pgx" driver
+	_ "git.bytestone.uk/hum3/go-postgres" // registers "pglike" driver
+	_ "github.com/jackc/pgx/v5/stdlib"    // registers "pgx" driver
 )
 
 // Open opens a database connection using the given DSN.
@@ -22,14 +23,11 @@ func Open(dsn string) (*sql.DB, error) {
 	return sql.Open(driver, dsn)
 }
 
-// Migrate runs the given schema DDL against the database.
-// Statements are split on ";" and executed individually for pglike compatibility.
+// Migrate runs the given schema DDL against the database, statement by
+// statement, with no version tracking. It is for fixed, idempotent schemas
+// (CREATE TABLE IF NOT EXISTS ...). For evolving schemas use Apply.
 func Migrate(ctx context.Context, d *sql.DB, schema string) error {
-	for _, stmt := range strings.Split(schema, ";") {
-		stmt = strings.TrimSpace(stmt)
-		if stmt == "" {
-			continue
-		}
+	for _, stmt := range SplitStatements(schema) {
 		if _, err := d.ExecContext(ctx, stmt); err != nil {
 			return fmt.Errorf("db.Migrate: %w", err)
 		}
