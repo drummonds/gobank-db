@@ -1,6 +1,6 @@
 # gobank-db — Documentation
 
-Shared database infrastructure for [gobank](https://git.bytestone.uk/hum3/gobank) — connection management, migration orchestration, and dual-backend support (pglike + Postgres/CockroachDB).
+Shared database layer for [gobank](https://git.bytestone.uk/hum3/gobank) — expand/contract migrations, contract views, and dual-backend support (pglike + Postgres).
 
 ## Pages
 
