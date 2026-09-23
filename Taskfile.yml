@@ -38,6 +38,8 @@ tasks:
     cmds:
       - mkdir -p docs
       - for f in research/*.d2; do d2 "$f" "docs/$(basename "${f%.d2}").svg"; done
+      # d2 writes 0600; the docs server needs world-readable files.
+      - chmod 644 docs/*.svg
 
   docs:build:
     desc: Build documentation (markdown to HTML) into docs/
