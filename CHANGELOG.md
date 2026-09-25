@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/).
 
 ## [Unreleased]
 
+## [0.2.0] - 2026-09-25
+
+ - Expand/contract migration runner with contract views; research docs move here from gobank
+
 ### Added
 - `Apply`: versioned migration runner with a `schema_migrations` table, one
   transaction per migration, and resume-after-failure.
