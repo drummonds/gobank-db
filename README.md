@@ -105,6 +105,7 @@ package live here:
 - [Contract Views](https://gobank-db.docs.bytestone.uk/contract-views.html)
 - [Expand/Contract Migrations](https://gobank-db.docs.bytestone.uk/expand-contract.html)
 - [Blue-Green Schemas](https://gobank-db.docs.bytestone.uk/blue-green-schemas.html)
+- [Caching](https://gobank-db.docs.bytestone.uk/caching.html) (design)
 
 ## Status
 

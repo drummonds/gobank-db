@@ -1,0 +1,33 @@
+title: |md
+  # Cache write inside a transaction
+  Staged entries reach the shared cache only after commit
+|
+
+flow: {
+  shape: sequence_diagram
+
+  svc: service (e.g. go-luca)
+  tx: db.Tx
+  stage: tx staging
+  cache: shared cache
+  pg: database
+
+  svc -> tx: INSERT account
+  tx -> pg: INSERT
+  svc -> stage: Stage(tx, id, exponent)
+  svc -> stage: Get(id) within tx
+  stage -> svc: hit (tx-local)
+
+  commit: commit {
+    svc -> tx: Commit()
+    tx -> pg: COMMIT
+    pg -> tx: ok
+    tx -> cache: publish staged entries
+  }
+
+  rollback: rollback {
+    svc -> tx: Rollback()
+    tx -> pg: ROLLBACK
+    tx -> stage: discard staged entries
+  }
+}
