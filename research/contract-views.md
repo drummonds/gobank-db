@@ -126,3 +126,58 @@ Run the Postgres form with `-v -run TestApplyFullCycle` to see the 0A000 retry l
 - No advisory lock, so two replicas running `Apply` at once would race. Postgres only; run one
   at a time for now.
 - The `search_path` form of blue-green waits on schema support in go-postgres.
+
+## Prior art
+
+None of this is new; gobank-db combines established ideas. Grouped by the question each answers:
+
+**Why a shared database needs a contract at all**
+
+- Fowler, Martin. "[IntegrationDatabase](https://martinfowler.com/bliki/IntegrationDatabase.html)".
+  *martinfowler.com*, 2004. The shared-database integration style and why its schema becomes
+  impossible to change.
+- Wright, Hyrum. "[Hyrum's Law](https://www.hyrumslaw.com/)". Every observable behaviour gets
+  depended on — which is what happens to a table any service may query.
+- Parnas, D. L. "[On the Criteria To Be Used in Decomposing Systems into
+  Modules](https://doi.org/10.1145/361598.361623)". *CACM* 15(12), 1972. Information hiding:
+  the table is the secret, the view is the interface.
+
+**Views as the stable surface**
+
+- ANSI/X3/SPARC three-schema architecture (1975–78). External schemas (views) over a conceptual
+  schema give logical data independence — the original form of the idea.
+- Ambler, Scott W. and Sadalage, Pramod J. *Refactoring Databases: Evolutionary Database
+  Design*. Addison-Wesley, 2006. The "[Encapsulate Table With
+  View](https://databaserefactoring.com/EncapsulateTableWithView.html)" refactoring is exactly
+  the first migration in the cycle above.
+- Sadalage, Pramod and Fowler, Martin. "[Evolutionary Database
+  Design](https://martinfowler.com/articles/evodb.html)". *martinfowler.com*, 2016.
+- Newman, Sam. *Monolith to Microservices*. O'Reilly, 2019, ch. 4. The "Database View" and
+  "Database-as-a-Service Interface" patterns for letting other services read a schema you are
+  about to change.
+- PostgREST. "[Schema Isolation](https://docs.postgrest.org/en/stable/explanations/schema_isolation.html)".
+  Expose only a schema of views and functions; keep tables in a private schema. This is the
+  `contract` schema form gobank-db will use once go-postgres supports schemas.
+
+**Swapping what is behind the view**
+
+- Oracle. "[Edition-Based Redefinition](https://docs.oracle.com/en/database/oracle/oracle-database/19/adfns/editions.html)".
+  Applications reach tables only through *editioning views*, so a new edition can restructure
+  them online — the industrial version of the blue/green view swap.
+- Hodgson, Pete. "[Parallel Change](https://martinfowler.com/bliki/ParallelChange.html)" — see
+  [expand/contract](expand-contract.html).
+
+**Ownership and enforcing it**
+
+- Richardson, Chris. "[Database per service](https://microservices.io/patterns/data/database-per-service.html)".
+  *microservices.io*. Names *private-tables-per-service* as the lowest-overhead variant — one
+  database, each table owned by one service.
+- Grzybek, Kamil. "[Modular Monolith: Integration
+  Styles](https://www.kamilgrzybek.com/blog/posts/modular-monolith-integration-styles)". The
+  shared-database style inside a modular monolith, with per-module ownership.
+- Shopify's [Packwerk](https://github.com/Shopify/packwerk) and
+  [ArchUnit](https://www.archunit.org/). Module boundaries checked by static analysis in the
+  test suite, with a recorded list of existing violations — the model for gobank's
+  `TestContractViewRule` ([ADR-0001](https://git.bytestone.uk/hum3/gobank/src/branch/main/adr/0001-contract-views.md)).
+- qntm. "[Ratchets in software development](https://qntm.org/ratchet)". A count of known
+  violations that may only go down — the shape of gobank's contract-debt baseline.
